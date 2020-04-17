@@ -16,6 +16,7 @@ import java.util.*;
 public class sequencingFile {
     public void sequenceFind(String fileN) throws FileNotFoundException, IOException{
         try{
+            //COunting size of each paragraph
             char ch;
             int i,charCount=0;
             FileReader fr = new FileReader(fileN);

@@ -2,6 +2,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
+
  */
 
 package hybridcryptfile;
@@ -17,7 +18,7 @@ import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFPictureData;
-
+    
 
 /**
  *
@@ -29,13 +30,22 @@ public class HybridCryptFile {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException, InvalidFormatException {
+        
+        sequencingFile f = new sequencingFile();
+        f.sequenceFind("file.txt");
+        
+        //Text Extraction from .docx file
         FileInputStream fis = null;
+        FileOutputStream fos = null;
         try {
             fis = new FileInputStream("test.docx");
             XWPFDocument xdoc = new XWPFDocument(OPCPackage.open(fis));
             XWPFWordExtractor extractor;
             extractor = new XWPFWordExtractor(xdoc);
-            System.out.println(extractor.getText());
+            fos = new FileOutputStream("file.txt");
+            String text = extractor.getText();
+            fos.write(text.getBytes(), 0, text.length());
+            fos.close();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(HybridCryptFile.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -45,6 +55,8 @@ public class HybridCryptFile {
                 Logger.getLogger(HybridCryptFile.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
+        //Images Extraction from .docx file
         fis = new FileInputStream("test.docx");
         XWPFDocument xdoc = new XWPFDocument(OPCPackage.open(fis));
         List pic = xdoc.getAllPictures();
@@ -54,12 +66,12 @@ public class HybridCryptFile {
         Iterator iterator=pic.iterator();
         int i=0;
         while(iterator.hasNext()){
-         XWPFPictureData pict;
-         pict = (XWPFPictureData) iterator.next();
-         byte[] bytepic=pict.getData();
-         BufferedImage imag= ImageIO.read(new ByteArrayInputStream(bytepic));
-                ImageIO.write(imag, "jpg", new File(i+".jpg"));
-                i++;
+            XWPFPictureData pict;
+            pict = (XWPFPictureData) iterator.next();
+            byte[] bytepic=pict.getData();
+            BufferedImage imag= ImageIO.read(new ByteArrayInputStream(bytepic));
+            ImageIO.write(imag, "jpg", new File(i+".jpg"));
+            i++;
         }
     }
 }

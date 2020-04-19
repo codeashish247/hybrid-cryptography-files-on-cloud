@@ -35,7 +35,7 @@ public class HybridCryptFile {
     public static void main(String[] args) throws IOException, InvalidFormatException {
         
         
-        //Paragraph Extraction and Creation of .txt files from it
+        //Paragraphs Extraction and Creation of .txt files from it
         int txtInd = 1;
         FileInputStream fis = new FileInputStream("test.docx");
         FileOutputStream fos = null;
@@ -45,15 +45,15 @@ public class HybridCryptFile {
             fos = new FileOutputStream(txtInd+".txt");
             fos.write((paragraph.getText()).getBytes(), 0, (paragraph.getText()).length());
             fos.close();
-            System.out.println(paragraph.getText());
-            System.out.println("********************************************************************"+txtInd+".txt file created and written!");
+            System.out.println(txtInd+".txt file created and written to the file system!");
             ++txtInd;
         }
         
         
-        
-//        sequencingFile f = new sequencingFile();
-//        f.sequenceFind("file.txt");
+        //Rearranging parts as Original
+        sequencingFile f = new sequencingFile();
+        f.createNewDoc("newDoc");
+        f.insertParts("newDoc");
         
         
         
